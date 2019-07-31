@@ -21,36 +21,69 @@ const listings = [
 	},
 ];
 
+const render = ()=>{
+	// Delets the old once and create the new list with the new apartment we added. 
+	document.querySelector('ul').innerHTML = '';
+	listings.forEach(listing =>{
+		const li = document.createElement('li');
 
-listings.forEach(listing =>{
-	const li = document.createElement('li');
+		const img = document.createElement('img');
+		img.src = listing.image;
 
-	const img = document.createElement('img');
-	img.src = listing.image;
+		const container = document.createElement('div');
+		container.className = 'listing-container';
 
-	const container = document.createElement('div');
-	container.className = 'listing-container';
+		const date = document.createElement('span');
+		date.innerHTML = listing.createdAt;
 
-	const date = document.createElement('span');
-	date.innerHTML = listing.createdAt;
+		const title = document.createElement('a');
+		title.innerHTML = listing.title;
+		title.href = '#';
 
-	const title = document.createElement('a');
-	title.innerHTML = listing.title;
-	title.href = '#';
+		const priceContainer = document.createElement('div');
+		const price = document.createElement('span');
+		price.innerHTML = listing.price;
 
-	const priceContainer = document.createElement('div');
-	const price = document.createElement('span');
-	price.innerHTML = listing.price;
+		priceContainer.appendChild(price)
 
-	priceContainer.appendChild(price)
+		li.appendChild(img);
+		container.appendChild(date);
+		container.appendChild(title);
+		container.appendChild(priceContainer);
 
-	li.appendChild(img);
-	container.appendChild(date);
-	container.appendChild(title);
-	container.appendChild(priceContainer);
-
-	li.appendChild(container);
-	document.querySelector('ul').appendChild(li);
+		li.appendChild(container);
+		document.querySelector('ul').appendChild(li);
+	});
+};
 
 
-});
+render();
+
+function addListing(){
+
+	const newTitle = document.querySelector('.add-listing-form input.title').value;
+
+	const newPrice = document.querySelector('.add-listing-form input.price').value;
+
+	const newImgUrl = document.querySelector('.add-listing-form input.img-url').value;
+
+	const newCreatedAt = (new Date).toString().slice(4,10);
+
+
+
+	const newListing = {
+		title: newTitle,
+		price: newPrice,
+		image: newImgUrl,
+		createdAt: newCreatedAt,
+	};
+
+	listings.push(newListing);
+	render();
+
+	// Empty the value from the input after they sent in it.
+	document.querySelectorAll('.add-listing-form input').forEach(input =>{
+		input.value = '';
+	});
+};
+
