@@ -21,10 +21,22 @@ const listings = [
 	},
 ];
 
+let searchText = '';
+
 const render = ()=>{
 	// Delets the old once and create the new list with the new apartment we added. 
 	document.querySelector('ul').innerHTML = '';
-	listings.forEach(listing =>{
+
+	// function filter out the search input from user and find a match in the listings.
+	// the first index of Title we take.
+	//!searcText checks if Truthfy or false. IF the string is empty or not.
+	// listings.title.includes if the word incldues.
+	listings.filter(listing =>{
+		if( !searchText || ( listing.title.toLowerCase().includes(searchText.toLowerCase()))) return true;
+		else return false;
+	})
+	// Now it inplament the data to the list.
+	.forEach(listing =>{
 		const li = document.createElement('li');
 
 		const img = document.createElement('img');
@@ -67,9 +79,11 @@ function addListing(){
 
 	const newImgUrl = document.querySelector('.add-listing-form input.img-url').value;
 
+
+	// IF  if statment Title and price and image url are empty this function below will cut the function jump out from addListing function.
+	if(!newTitle || !newPrice || !newImgUrl )return;
+
 	const newCreatedAt = (new Date).toString().slice(4,10);
-
-
 
 	const newListing = {
 		title: newTitle,
@@ -87,3 +101,11 @@ function addListing(){
 	});
 };
 
+
+function search(){
+	const nextSearchText = document.querySelector('input.search').value;
+	searchText = nextSearchText;
+
+	render();
+
+}
