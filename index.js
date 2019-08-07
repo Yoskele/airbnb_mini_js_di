@@ -1,7 +1,9 @@
+
 const listings = [
 	{
 		image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT97-yMrKOQEma5VzK67vF1x2rrUamSrc73kiHyyikibO9HaOQb',
 		title: ' Down Town City',
+		description:'The best view in the city',
 		price: 3000,
 		createdAt:'Jul 20',
 	},
@@ -9,6 +11,7 @@ const listings = [
 	{
 		image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_ZDoEJkNER2Ycs7PZnfNPNVjglHExsvmDjYq1LZGmduJaYkeKHg',
 		title: ' outside city ',
+		description:'Good Location Close to the Center',
 		price: 1500,
 		createdAt:'Jul 13',
 	},
@@ -16,6 +19,7 @@ const listings = [
 	{
 		image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZt3Km3L9NPa5S8jroKoovMBmAEHAP5Sgax7ipzumXh0OfbcC-kA',
 		title: ' Country house',
+		description:'Cant get any better deal',
 		price: 2000,
 		createdAt:'Jul 13',
 	},
@@ -51,6 +55,20 @@ const render = ()=>{
 		const title = document.createElement('a');
 		title.innerHTML = listing.title;
 		title.href = '#';
+
+		title.addEventListener('click',()=>{
+			document.querySelector('.modal img').src = listing.image;
+			document.querySelector('.modal h2').innerHTML = listing.title  + ' $' + listing.price;
+			document.querySelector('.modal p').innerHTML = listing.description;
+
+			document.querySelector('.shadow').style.display = 'flex';
+
+			// for close the modal
+			document.querySelector('.modal-close-button').addEventListener('click', ()=>{
+				document.querySelector('.shadow').style.display = 'none';
+			});
+
+		});
 
 		const priceContainer = document.createElement('div');
 		const price = document.createElement('span');
@@ -108,4 +126,12 @@ function search(){
 
 	render();
 
+}
+
+// To close the Modal Box if the user click on the gray background.
+function closeModal(event){
+	const shadow = document.querySelector('.shadow');
+
+	if(event.target == shadow)
+		document.querySelector('.shadow').style.display = 'none';
 }
